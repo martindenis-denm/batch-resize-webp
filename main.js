@@ -83,7 +83,7 @@ function cropToContent() {
     var right = layerBounds[2].as('px'); // Right of the active layer
     var bottom = layerBounds[3].as('px'); // Bottom of the active layer
 
-    // Define the crop area (bounding box of the selection)
+    // Crop (bounding box of the selection)
     app.activeDocument.crop([left, top, right, bottom]);
 }
 
@@ -101,7 +101,7 @@ function resizeDocument() {
     // We take the density of "subject pixels" and the difference in image ratios to output a visually appealing resize.
     // The goal is the make all output images look similar in size.
     if (userInput.resizeMode == "contain" && backgroundRatio > 0 && backgroundRatio < 1) {
-        // The more the source ratio is different from the target ratio, the more we resize the image
+        // The more the source ratio is different from the target ratio, the less we scale down the image
         if (sourceRatio > targetRatio) {
             var sizeRatioDelta = sourceRatio / targetRatio;
         } else {
