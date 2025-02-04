@@ -1,11 +1,16 @@
 #target photoshop
 
-// Ensure that version 2022 or later is being used
-var COMPRESSION =  "compressionLossy" // "compressionLossless" | "compressionLossy";
+var DEFAULT_WIDTH = 400;
+var DEFAULT_HEIGHT = 200;
+var DEFAULT_QUALITY = 93;
+var DEFAULT_INPUT_FOLDER = "/Users/odoo/Downloads/batch_resize/source";
+var DEFAULT_OUTPUT_FOLDER = "/Users/odoo/Downloads/batch_resize/dest";
+var COMPRESSION = "compressionLossy"; // "compressionLossless" | "compressionLossy"
 var versionNumber = app.version.split(".");
 var versionCheck = parseInt(versionNumber);
 var userInput = null;
 
+// Ensure that version 2022 or later is being used
 if (versionCheck < 23) {
     // Fail
     alert("You must use Photoshop 2022 or later to save using native WebP format...");
@@ -103,8 +108,8 @@ function resizeDocument() {
             var sizeRatioDelta = targetRatio / sourceRatio;
         }
 
-        sizeRatioDelta = sizeRatioDelta / 4 + 0.33; // These values were found by trial and error
-        backgroundRatio = backgroundRatio + 0.3 + (1 - backgroundRatio) * 0.25; // These values were found by trial and error
+        sizeRatioDelta = sizeRatioDelta / 3 + 0.33; // These values were found by trial and error
+        backgroundRatio = backgroundRatio + 0.125 + (1 - backgroundRatio) * 0.5; // These values were found by trial and error
 
         resizeFactor = Math.min(1, sizeRatioDelta * backgroundRatio);
     }
@@ -266,10 +271,10 @@ function showDialog() {
     widthGroup.spacing = 4;
     var widthLabel = widthGroup.add("statictext", undefined, "Width x Height");
     widthLabel.preferredSize = [100, 15];
-    var widthInput = widthGroup.add("editnumber", undefined, "400");
+    var widthInput = widthGroup.add("editnumber", undefined, DEFAULT_WIDTH);
     widthInput.characters = 6;
     widthGroup.add("statictext", undefined, "x");
-    var heightInput = widthGroup.add("editnumber", undefined, "200");
+    var heightInput = widthGroup.add("editnumber", undefined, DEFAULT_HEIGHT);
     heightInput.characters = 6;
     widthGroup.add("statictext", undefined, "px");
 
@@ -278,9 +283,9 @@ function showDialog() {
     qualityGroup.spacing = 4;
     var qualityLabel = qualityGroup.add("statictext", undefined, "Quality");
     qualityLabel.preferredSize = [100, 15];
-    var qualitySlider = qualityGroup.add("slider", undefined, 90, 0, 100); // Default 90, range 0-100
+    var qualitySlider = qualityGroup.add("slider", undefined, DEFAULT_QUALITY, 0, 100); // Default 90, range 0-100
     qualitySlider.preferredSize.width = 240; // Set slider width
-    var qualityValue = qualityGroup.add("editnumber", undefined, "90");
+    var qualityValue = qualityGroup.add("editnumber", undefined, DEFAULT_QUALITY);
     qualityValue.characters = 4;
     qualitySlider.onChanging = function () {
         qualityValue.text = Math.round(qualitySlider.value).toString();
@@ -359,7 +364,7 @@ function showDialog() {
     inputFolderGroup.spacing = 4;
     var inputFolderLabel = inputFolderGroup.add("statictext", undefined, "Input Folder");
     inputFolderLabel.preferredSize = [100, 15];
-    var inputFolderText = inputFolderGroup.add("edittext", undefined, "");
+    var inputFolderText = inputFolderGroup.add("edittext", undefined, DEFAULT_INPUT_FOLDER);
     inputFolderText.characters = 24;
     var inputFolderButton = inputFolderGroup.add("button", undefined, "Browse");
     inputFolderButton.onClick = function () {
@@ -372,7 +377,7 @@ function showDialog() {
     outputFolderGroup.spacing = 4;
     var outputFolderLabel = outputFolderGroup.add("statictext", undefined, "Output Folder");
     outputFolderLabel.preferredSize = [100, 15];
-    var outputFolderText = outputFolderGroup.add("edittext", undefined, "");
+    var outputFolderText = outputFolderGroup.add("edittext", undefined, DEFAULT_OUTPUT_FOLDER);
     outputFolderText.characters = 24;
     var outputFolderButton = outputFolderGroup.add("button", undefined, "Browse");
     outputFolderButton.onClick = function () {
