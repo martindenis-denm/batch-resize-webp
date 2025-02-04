@@ -1,10 +1,10 @@
 #target photoshop
 
-var DEFAULT_WIDTH = 400;
-var DEFAULT_HEIGHT = 200;
+var DEFAULT_WIDTH = 480;
+var DEFAULT_HEIGHT = 240;
 var DEFAULT_QUALITY = 93;
-var DEFAULT_INPUT_FOLDER = "/Users/odoo/Downloads/batch_resize/source";
-var DEFAULT_OUTPUT_FOLDER = "/Users/odoo/Downloads/batch_resize/dest";
+var DEFAULT_INPUT_FOLDER = "";
+var DEFAULT_OUTPUT_FOLDER = "";
 var COMPRESSION = "compressionLossy"; // "compressionLossless" | "compressionLossy"
 var versionNumber = app.version.split(".");
 var versionCheck = parseInt(versionNumber);
