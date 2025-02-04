@@ -89,7 +89,7 @@ function resizeDocument() {
     var sourceHeight = doc.height;
     var sourceRatio = sourceWidth / sourceHeight;
     var targetRatio = userInput.width / userInput.height;
-    var backgroundRatio = getBackgroundRatio();
+    var backgroundRatio = getBgToSubjectRatio();
     var resizeFactor = 1;
 
     // This is some kind of smart resize.
@@ -138,7 +138,7 @@ function setBackgroundColor(newColor) {
 
 // Get the ratio of background (transparent or white) to subjects pixels
 // Returns a value between 0 and 1
-function getBackgroundRatio() {
+function getBgToSubjectRatio() {
     var doc = app.activeDocument;
 
     // Ensure there's an active layer
