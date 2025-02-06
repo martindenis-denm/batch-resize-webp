@@ -58,7 +58,10 @@ function init() {
 // Main function to handle each file
 function processFile() {
     // First remove transparent pixels and crop image to useful content pixels only
-    cropToContent();
+    if (userInput.resizeMode == "contain") {
+        // Don't need to crop in "cover" mode, it's probably full size photos, not logos on a background
+        cropToContent();
+    }
 
     // Resize document to dimensions specified by user
     resizeDocument();
@@ -94,29 +97,10 @@ function resizeDocument() {
     var sourceHeight = doc.height;
     var sourceRatio = sourceWidth / sourceHeight;
     var targetRatio = userInput.width / userInput.height;
-    var backgroundRatio = getBgToSubjectRatio();
-    var resizeFactor = 1;
-
-    // This is some kind of smart resize.
-    // We take the density of "subject pixels" and the difference in image ratios to output a visually appealing resize.
-    // The goal is the make all output images look similar in size.
-    if (userInput.resizeMode == "contain" && backgroundRatio > 0 && backgroundRatio < 1) {
-        // The more the source ratio is different from the target ratio, the less we scale down the image
-        if (sourceRatio > targetRatio) {
-            var sizeRatioDelta = sourceRatio / targetRatio;
-        } else {
-            var sizeRatioDelta = targetRatio / sourceRatio;
-        }
-
-        sizeRatioDelta = sizeRatioDelta / 3 + 0.33; // These values were found by trial and error
-        backgroundRatio = backgroundRatio + 0.125 + (1 - backgroundRatio) * 0.5; // These values were found by trial and error
-
-        resizeFactor = Math.min(1, sizeRatioDelta * backgroundRatio);
-    }
-
+    var resizeFactor = getResizeFactor(sourceRatio, targetRatio);
     var targetWidth = userInput.width * resizeFactor - userInput.padding * 2; // Compute final width
     var targetHeight = userInput.height * resizeFactor - userInput.padding * 2; // Compute final height
-    targetRatio = targetWidth / targetHeight; // Re-compute target ratio to take padding a resize factor into account
+    targetRatio = targetWidth / targetHeight; // Re-compute target ratio to take padding and resize factor into account
 
     // Resize the image
     if ((userInput.resizeMode == "contain" && sourceRatio > targetRatio)
@@ -128,6 +112,34 @@ function resizeDocument() {
 
     // Crop or pad the canvas to match the target size
     doc.resizeCanvas(userInput.width, userInput.height, AnchorPosition.MIDDLECENTER);
+}
+
+// This is some kind of smart resize.
+// We take the density of "subject pixels" and the difference in image ratios to output a visually appealing resize.
+// The goal is the make all output images look similar in size.
+function getResizeFactor(sourceRatio, targetRatio) {
+    if (userInput.resizeMode == "cover") {
+        return 1;
+    }
+
+    var backgroundRatio = getBgToSubjectRatio();
+
+    // If no background pixels are found, or if all pixels are "background", we don't resize the image
+    if (backgroundRatio <= 0 || backgroundRatio >= 1) {
+        return 1;
+    }
+
+    // The more the source ratio is different from the target ratio, the less we scale down the image
+    if (sourceRatio > targetRatio) {
+        var sizeRatioDelta = sourceRatio / targetRatio;
+    } else {
+        var sizeRatioDelta = targetRatio / sourceRatio;
+    }
+
+    sizeRatioDelta = sizeRatioDelta / 3 + 0.33; // These values were found by trial and error
+    backgroundRatio = backgroundRatio + 0.125 + (1 - backgroundRatio) * 0.5; // These values were found by trial and error
+
+    return Math.min(1, sizeRatioDelta * backgroundRatio);
 }
 
 // Set the background color of the document
