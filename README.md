@@ -10,7 +10,7 @@ To use the script:
 
 ## Notes
 ### Width x Height
-As of now, you can theoratically resize to bigger width and/or height, even though I've never tested it.
+As of now, you can theoretically resize to bigger width and/or height, even though I've never tested it.
 Also I don't see the point in doing that, since you'll be losing quality in the process.
 
 ### Overlay color
