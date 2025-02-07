@@ -1,7 +1,8 @@
 # Batch resize images and save them as WebP
 
-## How to
+## How to use
 To use the script, just drag the main.js file in your photoshop window (> 2022), or go under File > Scripts > Browse and then find main.js.
+Prepare a folder with all your source images to resize, and a destination folder for the script to put the resulting images.
 A modal box will appear, choose your settings and click resize!
 
 ## Notes
