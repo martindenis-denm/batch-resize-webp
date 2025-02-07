@@ -1,12 +1,25 @@
 # Batch resize images and save them as WebP
 
-Drag & Drop this script in your photoshop (>= 2022)
-A modal will appear, choose your settings and click resize!
+## How to
+To use the script, just drag the main.js file in your photoshop window (> 2022), or go under File > Scripts > Browse and then find main.js.
+A modal box will appear, choose your settings and click resize!
 
-This script works best with images having a **transparent or white brackground**.
+## Notes
+### Width x Height
+As of now, you can theoratically resize to bigger width and/or height, even though I've never tested it.
+Also I don't see the point in doing that, since you'll be losing quality in the process.
 
-The Overlay color won't be applied on images without a transparent background to avoid the whole output image being just one color
+### Overlay color
+The Overlay color won't be applied on images without a transparent background to avoid the whole output image being just one color.
 
-When choosing the resize method "Contain", some magic will be used for all resulting image to appear the same size.
-It uses the **ratio of useful to background pixels** and the **ratio of source image ratio to target image ratio** to best determine the real target size of the output image.
-This means that your visuals will not always be contained to the canvas' borders, but also that really busy images will be rendered smaller than very light ones. (ex: bold logos will appear smaller than very thin ones)
+### Input folder
+The script will only try to find source files (webp|tif|tiff|jpg|jpeg|psd|psb|png) in the specified input folder. I will not try to find them in its subfolder.
+
+### Padding
+You can apply an inner padding to the resize in "Contain" mode, the subject will be contained inside these new bounds.
+
+### Contain resize method
+
+When choosing the resize method "Contain", some magic will be used for all resulting image to appear the same size. It uses the **ratio of subject to background pixels** and the **difference between source image ratio to target image ratio** to best determine the real target size of the output image.
+This means that your visuals will not always be contained to the canvas' borders, but also that really busy images will be rendered smaller than very light ones. (ex: bold logos will appear smaller than very thin ones).
+This feature will only work with images having a **transparent or white brackground**.
