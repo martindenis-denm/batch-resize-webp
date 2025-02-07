@@ -18,7 +18,7 @@ This can be useful if you want all your image to be a certain color (ie: transfo
 The Overlay color won't be applied on images without a transparent background to avoid the whole output image being just one color.
 
 ### Input folder
-The script will only try to find source files (webp|tif|tiff|jpg|jpeg|psd|psb|png) directly inside the specified input folder. I will not try to find them in its subfolder.
+The script will only try to find source files (webp|tif|tiff|jpg|jpeg|psd|psb|png) directly inside the specified input folder. It will not try to find them in its subfolder.
 
 ### Padding
 You can apply an inner padding to the resize in "Contain" mode, the subject will be contained inside these new bounds.
