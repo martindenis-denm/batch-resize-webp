@@ -28,7 +28,7 @@ function init() {
     }
 
     // Limit the input files, add or remove extensions as required
-    var files = userInput.inputFolder.getFiles(/\.(webp|tif|tiff|jpg|jpeg|psd|psb|png)$/i);
+    var files = userInput.inputFolder.getFiles(/\.(webp|tif|tiff|jpg|jpeg|psd|psb|png|svg)$/i);
     var savedDisplayDialogs = app.displayDialogs;
     app.displayDialogs = DialogModes.NO;
     files.sort();
