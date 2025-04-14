@@ -118,7 +118,7 @@ function resizeDocument() {
 // We take the density of "subject pixels" and the difference in image ratios to output a visually appealing resize.
 // The goal is the make all output images look similar in size.
 function getResizeFactor(sourceRatio, targetRatio) {
-    if (userInput.resizeMode == "cover") {
+    if (userInput.resizeMode == "cover" || userInput.smartResize == false) {
         return 1;
     }
 
@@ -334,11 +334,21 @@ function showDialog() {
     paddingInput.characters = 6;
     paddingGroup.add("statictext", undefined, "px");
 
+    // Padding
+    var smartResizeGroup = dialog.add("group");
+    smartResizeGroup.spacing = 4;
+    var smartResizeLabel = smartResizeGroup.add("statictext", undefined, "Smart resize");
+    smartResizeLabel.preferredSize = [100, 15];
+    var smartResizeInput = smartResizeGroup.add("checkbox", undefined);
+    smartResizeInput.value = true;
+
     containRadio.onClick = function () {
+        smartResizeGroup.enabled = true; // Show input group when "Contain" is selected
         paddingGroup.enabled = true; // Show input group when "Contain" is selected
     };
 
     coverRadio.onClick = function () {
+        smartResizeGroup.enabled = false; // Show input group when "Contain" is selected
         paddingGroup.enabled = false; // Hide input group when "Cover" is selected
     };
 
@@ -417,6 +427,7 @@ function showDialog() {
         var height = parseInt(heightInput.text, 10);
         var quality = Math.round(qualitySlider.value);
         var resizeMode = containRadio.value ? "contain" : "cover";
+        var smartResize = !!smartResizeInput.value;
         var padding = resizeMode == "contain" ? parseInt(paddingInput.text, 10) : 0;
 
         // Check if width and height are valid (greater than 0)
@@ -458,9 +469,10 @@ function showDialog() {
             height: height,
             quality: quality,
             resizeMode: resizeMode,
+            smartResize: smartResize,
+            padding: padding,
             inputFolder: inputFolder,
             outputFolder: outputFolder,
-            padding: padding,
             overlayColor: selectedColor,
         };
     } else {
